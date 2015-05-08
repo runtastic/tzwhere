@@ -35,7 +35,19 @@ Ensure the test dependencies are installed:
 
 Run the test suite:
 
-    $ rake test
+    $ rake spec
+
+## DataSource
+
+Uses the data available at http://download.geonames.org/export/dump/
+
+The current version extract longitude, latitude and timezone from the
+`cities5000` dataset. This set includes all citites with a population > 5000
+(~47k entries).
+
+Can be changes to either the `cities1000`(144k entires) or
+`cities15000`(23k entries) dataset by changing the `update_points_data` rake
+task and executing it. One will be faster the other one more accurate.
 
 ## Contributing
 
