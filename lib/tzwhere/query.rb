@@ -1,5 +1,6 @@
 require 'geokdtree'
 require 'singleton'
+require 'active_support/values/time_zone'
 
 module TZWhere
   class Query
@@ -28,6 +29,7 @@ module TZWhere
         @timezones.push(timezone) unless @timezones.include?(timezone)
         kdtree.insert([lat.to_f, long.to_f], @timezones.index(timezone))
       end
+      @timezones.map!{|e| ActiveSupport::TimeZone.new(e) }
     end
   end
 end
