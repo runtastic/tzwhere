@@ -1,27 +1,32 @@
+require 'geokdtree'
+require 'singleton'
+
 module TZWhere
   class Query
+    include Singleton
+
     def initialize
-      @points ||= []
-      @timezones ||= []
+      @timezones = []
+      @kdtree = Geokdtree::Tree.new(2)
 
       load_points
-
-      @kd = Kdtree.new(@points)
     end
 
     def lookup(latitude, longitude)
-      @timezones.at(@kd.nearest(latitude, longitude))
+      result = kdtree.nearest([latitude, longitude])
+      timezones.at(result.data)
     end
 
     private
 
+    attr_accessor :timezones, :kdtree
+
     def load_points
-      File.open(File.join(File.dirname(__FILE__) + "/points.dat"), "r").each_line do |line|
+      IO.foreach("#{File.dirname(__FILE__)}/points.dat") do |line|
         lat, long, timezone = line.split
 
-        @timezones.push(timezone) unless @timezones.index(timezone)
-
-        @points << [lat.to_f, long.to_f, @timezones.index(timezone)]
+        @timezones.push(timezone) unless @timezones.include?(timezone)
+        kdtree.insert([lat.to_f, long.to_f], @timezones.index(timezone))
       end
     end
   end
