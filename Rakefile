@@ -1,4 +1,6 @@
-require "bundler/gem_tasks"
+require 'geminabox-release'
+GeminaboxRelease.patch(:use_config => true)
+
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
 
