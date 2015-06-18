@@ -1,5 +1,5 @@
 require 'geminabox-release'
-GeminaboxRelease.patch(:use_config => true)
+GeminaboxRelease.patch(use_config: true, remove_release: true)
 
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:spec)
