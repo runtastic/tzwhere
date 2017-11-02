@@ -18,3 +18,5 @@ task :update_points_dat do
   end
   file.close
 end
+
+task default: :spec
